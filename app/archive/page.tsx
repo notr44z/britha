@@ -3,7 +3,19 @@ import { LayoutShell } from "../../components/layout-shell";
 import { prisma, withDbFallback } from "../../lib/db";
 
 export default async function ArchivePage() {
-  const journals = await withDbFallback(() => prisma.journal.findMany({ where: { status: "PUBLISHED" }, orderBy: { createdAt: "desc" } }), [{ id: "1", title: "First Light", slug: "first-light", excerpt: "An opening note from the archive.", mood: "quiet", tags: ["memory"], createdAt: new Date() }]);
+  const journals = await withDbFallback(() => prisma.journal.findMany({ where: { status: "PUBLISHED" }, orderBy: { createdAt: "desc" } }), 
+  [{
+  id: "1",
+  status: "PUBLISHED",
+  title: "First Light",
+  slug: "first-light",
+  content: "An opening note from the archive.",
+  excerpt: "An opening note from the archive.",
+  mood: "quiet",
+  tags: ["memory"],
+  coverImage: null,
+  createdAt: new Date()
+  }]);
   return (
     <LayoutShell>
       <section className="mx-auto max-w-6xl px-6 py-16 lg:px-8">

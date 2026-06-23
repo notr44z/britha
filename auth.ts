@@ -4,7 +4,6 @@ import Credentials from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
-  trustHost: true,
   providers: [
     Credentials({
       name: "Credentials",
@@ -32,13 +31,13 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
+        token.role = (user as any).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role as string;
+        (session.user as any).role = token.role as string;
       }
       return session;
     },
@@ -48,9 +47,7 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-const handler = NextAuth(authOptions);
-
-export const { handlers, auth, signIn, signOut } = handler;
+export default NextAuth(authOptions);
 
 export async function getAuthSession() {
   return getServerSession(authOptions);

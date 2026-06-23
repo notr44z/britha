@@ -5,7 +5,15 @@ import { LayoutShell } from "../components/layout-shell";
 export default async function HomePage() {
   const fallbackJournals = [{ id: "1", title: "First Light", slug: "first-light", excerpt: "An opening note from the archive.", mood: "quiet", tags: ["memory"] }];
   const fallbackNovels = [{ id: "1", title: "The House of Glass", description: "A nocturnal tale of rooms, memory, and thresholds." }];
-  const fallbackPhotos = [{ id: "1", caption: "A suspended memory" }];
+  const fallbackPhotos = [
+  {
+    id: "1",
+    url: "/images/placeholder.jpg",
+    caption: "A suspended memory",
+    featured: false,
+    albumId: null,
+  },
+];
 
   const [journals, novels, photos, settings] = await Promise.all([
     withDbFallback(() => prisma.journal.findMany({ take: 3, orderBy: { createdAt: "desc" } }), fallbackJournals),
