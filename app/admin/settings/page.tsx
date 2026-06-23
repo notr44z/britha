@@ -8,7 +8,7 @@ export default async function AdminSettingsPage() {
   const isAuthenticated = cookieStore.get("britha-admin")?.value === "authenticated";
   if (!isAuthenticated) redirect("/admin/login");
 
-  const settings = await withDbFallback(() => prisma.settings.findFirst(), null);
+  const settings: any = await withDbFallback(() => prisma.settings.findFirst(), null);
 
   return (
     <div className="min-h-screen bg-[#06070a] p-6 text-stone-200 lg:p-8">
