@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
               { label: "Journals", value: journalCount },
               { label: "Novels", value: novelCount },
               { label: "Photos", value: photoCount },
-              { label: "Site", value: "Britha" },
+              { label: "Site", value: "britha" },
             ].map((item) => (
               <div key={item.label} className="rounded-2xl border border-white/10 bg-black/20 p-5">
                 <p className="text-sm text-stone-500">{item.label}</p>
