@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String @id @default(cuid())
+  name  String
+  email String @unique
+  role  String @default("ADMIN")
+}
+
+model Journal {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String
+  excerpt     String
+  mood        String
+  tags        String[]
+  coverImage  String?
+  status      String   @default("DRAFT")
+  createdAt   DateTime @default(now())
+}
+
+model Novel {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  coverImage  String?
+  status      String     @default("DRAFT")
+  chapters    Chapter[]
+}
+
+model Chapter {
+  id            String @id @default(cuid())
+  novelId       String
+  title         String
+  content       String
+  chapterNumber Int
+  novel         Novel  @relation(fields: [novelId], references: [id], onDelete: Cascade)
+}
+
+model Photo {
+  id        String  @id @default(cuid())
+  url       String
+  caption   String?
+  albumId   String?
+  featured  Boolean @default(false)
+  album     Album?  @relation(fields: [albumId], references: [id], onDelete: SetNull)
+}
+
+model Album {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  coverImage  String?
+  photos      Photo[]
+}
+
+model Settings {
+  id            String @id @default(cuid())
+  siteName      String @default("Britha")
+  heroText      String @default("a personal digital universe")
+  featuredJournalId String?
+  featuredNovelId   String?
+  featuredPhotoId   String?
+}
